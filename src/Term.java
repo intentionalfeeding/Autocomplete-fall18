@@ -8,6 +8,8 @@
 
 import java.util.Comparator;
 
+import org.junit.validator.ValidateWith;
+
 public class Term implements Comparable<Term> {
 
 	private final String myWord;
@@ -26,9 +28,9 @@ public class Term implements Comparable<Term> {
 	 * @throws IllegalArgumentException
 	 *             if weight is negative
 	 */
-	public Term(String word, double weight) {
-		// TODO: Complete Term constructor
-		
+	public Term(String word, double weight) throws NullPointerException, IllegalArgumentException {
+		if(word == null) throw new NullPointerException();
+		if(weight < 0) throw new IllegalArgumentException("negative weight" + weight);
 		myWord = word;
 		myWeight = weight;
 	}
@@ -85,9 +87,36 @@ public class Term implements Comparable<Term> {
 		 *            - Two Terms whose words are being compared
 		 */
 		public int compare(Term v, Term w) {
-			// TODO: Implement compare
+			int temp = 0;
 			
-			return 0;
+			for (int i = 0; i < myPrefixSize; i++){
+				if (w.getWord().length()<i+1 && v.getWord().length()>=i+1) {
+					temp = 1;
+					break;
+				} 
+				if (v.getWord().length()<i+1 && w.getWord().length()>=i+1){
+					temp = -1;
+					break;
+				}
+				if (v.getWord().length()<i+1 && w.getWord().length()<i+1){
+					break;
+				}
+				if (v.getWord().charAt(i)-w.getWord().charAt(i)>0){
+					temp = 1;
+					break;
+				}
+				Character vc = (Character) v.getWord().charAt(i);
+				Character wc = (Character) w.getWord().charAt(i);
+				if (vc.compareTo(wc)<0){
+					temp = -1;
+					break;
+				} else if (vc.compareTo(wc)>0){
+					temp = 1;
+					break;
+				}
+			}
+			
+			return temp;
 		}
 	
 	}
@@ -100,9 +129,10 @@ public class Term implements Comparable<Term> {
 	 */
 	public static class ReverseWeightOrder implements Comparator<Term> {
 		public int compare(Term v, Term w) {
-			// TODO: implement compare
-			
-			return 0;
+			int temp = 0;
+			if (v.getWeight()>w.getWeight()) temp = -1;
+			if (v.getWeight()<w.getWeight()) temp = 1;
+			return temp;
 		}
 	}
 
@@ -114,9 +144,10 @@ public class Term implements Comparable<Term> {
 	 */
 	public static class WeightOrder implements Comparator<Term> {
 		public int compare(Term v, Term w) {
-			// TODO: implement compare
-			
-			return 0;
+			int temp = 0;
+			if (v.getWeight()>w.getWeight()) temp = 1;
+			if (v.getWeight()<w.getWeight()) temp = -1;
+			return temp;
 		}
 	}
 }

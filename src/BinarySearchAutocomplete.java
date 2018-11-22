@@ -105,8 +105,22 @@ public class BinarySearchAutocomplete implements Autocompletor {
 	 */
 	@Override
 	public List<Term> topMatches(String prefix, int k) {
-
+		if (prefix == null) throw new NullPointerException();
 		ArrayList<Term> list = new ArrayList<>();
-		return list;
+		if (k == 0) return list;
+		int first = firstIndexOf(myTerms,new Term(prefix, 0.0), new Term.PrefixOrder(prefix.length()));
+		int last = lastIndexOf(myTerms,new Term(prefix, 0.0), new Term.PrefixOrder(prefix.length()));
+		if (first == -1) return list;
+		for (int i = first; i <= last; i++){
+			list.add(myTerms[i]);
+		}
+		Comparator<Term> reverseComp = new Term.ReverseWeightOrder();
+		Collections.sort(list, reverseComp);
+		ArrayList<Term> klist = new ArrayList<Term>();
+		if(k>=list.size()) return list;
+		for (int j = 0; j < k; j++){
+			klist.add(list.get(j));
+		}
+		return klist;
 	}
 }
