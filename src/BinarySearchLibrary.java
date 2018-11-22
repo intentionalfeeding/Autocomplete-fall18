@@ -81,7 +81,8 @@ public class BinarySearchLibrary {
 			}
 			if(low == high -1) break;				
 		}
-		if ( list != null && comp.compare(target,list.get(low)) == 0) return low;
+		if (list == null) return -1;
+		if (comp.compare(target,list.get(low)) == 0) return low;
 		return -1;
 	}
 	
