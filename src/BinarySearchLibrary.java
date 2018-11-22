@@ -72,9 +72,7 @@ public class BinarySearchLibrary {
 		while (low < high){
 			int mid = (low + high)/2;
 			T m = list.get(mid);
-			if (comp.compare(m, target) < 0) {
-				low = mid +1;
-			} else if (comp.compare(m, target) > 0) {
+			if (comp.compare(m, target) > 0) {
 				high = mid;
 			}else {
 				low = mid;
