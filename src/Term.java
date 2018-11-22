@@ -8,7 +8,7 @@
 
 import java.util.Comparator;
 
-import org.junit.validator.ValidateWith;
+
 
 public class Term implements Comparable<Term> {
 
